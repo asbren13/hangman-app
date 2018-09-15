@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html ng-app="hangmanApp">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Hangman App</title>
+	<link rel="stylesheet" href="">
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.js"></script>
+	<script src="javascripts/app.js"></script>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+	<link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+</head>
+<body ng-app="hangman">
+	<div ng-controller="AppController" class="container">
+		<h3>Let's Play Hangman!</h3>
+		<h4>{{gameStatus}}</h4>
+		<div class="hangman-img-container">
+			<img src="{{initialImg}}">
+		</div>
+
+		<div class="game-container">
+			<div class="guess-container">
+			</div>
+			<div class="wrong-guesses">
+			</div>
+		</div>
+	</div>
+</body>
+</html>
