@@ -3,14 +3,17 @@ var app = angular.module('hangmanApp', []);
 app.controller('AppController', function($scope, randomWordFactory) {
 	const maxGuesses = 10;
 	var attempts; 
+	$scope.gameStatus = "Ready to Get Started?";
+	$scope.gameStarted = false;
 
 	function init(){
+		$scope.gameStarted = true;
 		$scope.words = [];
 		$scope.theGameWord = "";
 		$scope.completedWord = "";
 		$scope.guessArray = [];
 		$scope.showCorrectWord = "";
-		$scope.gameStatus = "Ready to Get Started?";
+		$scope.gameStatus = "Game Started! Good Luck";
 		$scope.errorMsg = "";
 		attempts = 0;
 		startGame();
@@ -74,7 +77,9 @@ app.controller('AppController', function($scope, randomWordFactory) {
         init();
     }
 
-	init();
+    $scope.beginGame = () =>{
+		init();
+    }
 });
 
 app.factory("randomWordFactory", ["$http", function($http){

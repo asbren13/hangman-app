@@ -20,8 +20,11 @@
 			<div class="hangman-img-container">
 				<img src="{{hangmanImg}}">
 			</div>
+			<div ng-if="!gameStarted">
+				<button ng-click="beginGame()">Play Hangman</button>
+			</div>
 
-			<div class="game-container">
+			<div ng-if="gameStarted" class="game-container">
 				<div class="guess-container">
 					<div class="word-length">
 						{{wordSlots}}
