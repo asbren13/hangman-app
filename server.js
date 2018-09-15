@@ -6,7 +6,7 @@ var bodyParser = require('body-parser');
 var ejs = require('ejs');
 
 var routes = require('./routes/index');
-// var api = require('./routes/api');
+var api = require('./routes/api');
 
 var app = express();
 
@@ -22,9 +22,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-// app.use('/api', api);
-
-// redirects incorrect urls to index
+app.use('/api', api);
+ 
 app.get('*', function(req, res){
   res.redirect('/');
 })

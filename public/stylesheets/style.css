@@ -15,3 +15,7 @@ a {
 .hangman-img-container img{
 	height: 250px;
 }
+
+.form-control {
+	width: 100px;
+}
