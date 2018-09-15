@@ -19,3 +19,8 @@ a {
 .form-control {
 	width: 100px;
 }
+
+div {
+	display: block;
+	margin: 10px;
+}

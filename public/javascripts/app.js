@@ -20,8 +20,18 @@ app.controller('AppController', function($scope, randomWordFactory) {
 		$scope.hangmanImg = '/images/hangman-0.png';
 		var gameData = randomWordFactory.getRandomWord();
 		gameData.success(function(data){
-			console.log(data);
+			$scope.wordLength = data.randomLength;
+			$scope.wordSlots = letterSlots();
 		})
+	}
+
+	function letterSlots(){
+		var wordLength = $scope.wordLength;
+		var slots = "";
+		for(var i = 0; i < wordLength; i++ ){
+			slots += '_____ ';
+		}
+		return slots;
 	}
 
 	$scope.submitGuess = () => {
@@ -29,6 +39,7 @@ app.controller('AppController', function($scope, randomWordFactory) {
 		var guess = $scope.form.letter;
 		if($scope.guessArray.indexOf(guess) === -1){
 			$scope.guessArray.push(guess);
+			
 		} else if($scope.guessArray.indexOf(guess) === 1){
 			$scope.duplicateLetter = true;
 		}
@@ -36,8 +47,18 @@ app.controller('AppController', function($scope, randomWordFactory) {
 		$scope.form.letter = "";
 	}
 
+	function wrongGuess(){
+		$scope.updateImg();
+	}
+
+
 	function lostGame(){
 		$scope.gameStatus = "Game Over :(";
+	}
+
+	function winGame(){
+		$scope.gameStatus = "Congrats! You won!";
+
 	}
 
 	$scope.updateImg = () => {
@@ -68,3 +89,4 @@ app.factory("randomWordFactory", ["$http", function($http){
         getRandomWord: getRandomWord 
     };
 }]);
+
