@@ -30,6 +30,12 @@ button.restart-game {
 	margin-top: 35px;
 }
 
+.game-stats {
+    position: absolute;
+    top: 200px;
+    right: 150px;
+}
+
 div.hangman-img-container {
     display: block;
     margin: 0 auto;

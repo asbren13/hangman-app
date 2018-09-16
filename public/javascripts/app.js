@@ -6,6 +6,9 @@ app.controller('AppController', function($scope, randomWordFactory, guessFactory
 	$scope.gameStatus = "Ready to Get Started?";
 	$scope.gameStarted = false;
 	$scope.gameOver = false;
+	$scope.gamesPlayed = 0;
+	$scope.gamesWon = 0;
+	$scope.gamesLost = 0;
 
 	function init(){
 		attempts = 0;
@@ -15,7 +18,6 @@ app.controller('AppController', function($scope, randomWordFactory, guessFactory
 		$scope.completedWord = [];
 		$scope.guessArray = [];
 		$scope.wrongGuessArray = [];
-		$scope.showCorrectWord = "";
 		$scope.gameStatus = "Game Started! Good Luck";
 		$scope.errorMsg = "";
 		attempts = 0;
@@ -73,13 +75,13 @@ app.controller('AppController', function($scope, randomWordFactory, guessFactory
 				loseGame();
 			}
 		} else {
-			$scope.completedWord.push(letter);
 			var wordslots = $scope.wordSlots.split(' ');
 			var letterCount = res.letterPositions.length;
 			for(var i = 0; i < letterCount; i++){
 				wordslots[res.letterPositions[i]] = letter;
+				$scope.completedWord.push(letter);
 			}
- 
+ 			console.log($scope.completedWord.length + ' out of ' + $scope.wordLength);
 			if($scope.completedWord.length === $scope.wordLength){
 				winGame();
 			}
@@ -91,11 +93,15 @@ app.controller('AppController', function($scope, randomWordFactory, guessFactory
 	function loseGame(){
 		$scope.gameStatus = "You lost :( Try again!";
 		$scope.gameOver = true;
+		$scope.gamesPlayed = $scope.gamesPlayed + 1;
+		$scope.gamesLost = $scope.gamesLost + 1;
 	}
 
 	function winGame(){
 		$scope.gameStatus = "You won! Want to play again?";
 		$scope.gameOver = true;
+		$scope.gamesPlayed = $scope.gamesPlayed + 1;
+		$scope.gamesWon = $scope.gamesWon + 1;
 	}
 
 	$scope.restartGame = () => {

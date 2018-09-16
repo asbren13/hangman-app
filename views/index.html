@@ -22,11 +22,16 @@
 			<div ng-show="gameOver">
 				<button class="btn restart-game" ng-click="restartGame()">Restart Game?</button>
 			</div>
+			<div ng-show="!gameStarted">
+				<button class="btn" ng-click="beginGame()">Play Hangman</button>
+			</div>
 			<div class="hangman-img-container">
 				<img src="{{hangmanImg}}">
 			</div>
-			<div ng-show="!gameStarted">
-				<button class="btn" ng-click="beginGame()">Play Hangman</button>
+			<div class="game-stats">
+				<h4><strong>Games Played:</strong> {{gamesPlayed}}</h4>
+				<h4 ng-show="gamesPlayed > 0"><strong>Games Won:</strong> {{gamesWon}}</h4>
+				<h4 ng-show="gamesPlayed > 0"><strong>Games Lost:</strong> {{gamesLost}}</h4>
 			</div>
 			
 			<div ng-show="gameStarted" class="game-container">
