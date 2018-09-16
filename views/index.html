@@ -29,7 +29,7 @@
 				<img src="{{hangmanImg}}">
 			</div>
 			<div class="game-stats">
-				<h4><strong>Games Played:</strong> {{gamesPlayed}}</h4>
+				<h4 ng-show="gameStarted"><strong>Games Played:</strong> {{gamesPlayed}}</h4>
 				<h4 ng-show="gamesPlayed > 0"><strong>Games Won:</strong> {{gamesWon}}</h4>
 				<h4 ng-show="gamesPlayed > 0"><strong>Games Lost:</strong> {{gamesLost}}</h4>
 				<h4 ng-show="gamesPlayed > 0"><strong>Winning Percentage:</strong> {{gamesWon / gamesPlayed * 100}}%</h4>
