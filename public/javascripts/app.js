@@ -5,13 +5,16 @@ app.controller('AppController', function($scope, randomWordFactory, guessFactory
 	var attempts; 
 	$scope.gameStatus = "Ready to Get Started?";
 	$scope.gameStarted = false;
+	$scope.gameOver = false;
 
 	function init(){
+		attempts = 0;
+		$scope.gameOver = false;
 		$scope.gameStarted = true;
 		$scope.words = [];
-		$scope.theGameWord = "";
-		$scope.completedWord = "";
+		$scope.completedWord = [];
 		$scope.guessArray = [];
+		$scope.wrongGuessArray = [];
 		$scope.showCorrectWord = "";
 		$scope.gameStatus = "Game Started! Good Luck";
 		$scope.errorMsg = "";
@@ -39,10 +42,10 @@ app.controller('AppController', function($scope, randomWordFactory, guessFactory
 
 	$scope.submitGuess = () => {
 		$scope.duplicateLetter = false;
-		var guess = $scope.form.letter;
+		var guess = $scope.form.letter.toLowerCase();
 		if($scope.guessArray.indexOf(guess) === -1){
+			$scope.guessArray.push(guess);
 			validateGuess(guess)
-			
 		} else if($scope.guessArray.indexOf(guess) === 1){
 			$scope.duplicateLetter = true;
 		}
@@ -64,16 +67,33 @@ app.controller('AppController', function($scope, randomWordFactory, guessFactory
 		if(!isCorrect){
 			attempts++;
 			$scope.hangmanImg = `/images/hangman-${attempts}.png`;
-			$scope.guessArray.push(letter);
+			$scope.wrongGuessArray.push(letter);
 			$scope.guessesLeft = maxGuesses - attempts;
+			if(attempts === 10){
+				loseGame();
+			}
 		} else {
-			var wordLength = $scope.wordSlots.split(' ');
+			$scope.completedWord.push(letter);
+			var wordslots = $scope.wordSlots.split(' ');
 			var letterCount = res.letterPositions.length;
 			for(var i = 0; i < letterCount; i++){
-				wordLength[res.letterPositions[i]] = letter
+				wordslots[res.letterPositions[i]] = letter
 			}
-			$scope.wordSlots = wordLength.join(' ');
+			if($scope.completedWord.length === $scope.wordLength){
+				winGame();
+			}
+			$scope.wordSlots = wordslots.join(' ');
 		}
+	}
+
+	function loseGame(){
+		$scope.gameStatus = "You lost :( Try again!";
+		$scope.gameOver = true;
+	}
+
+	function winGame(){
+		$scope.gameStatus = "You won! Want to play again?";
+		$scope.gameOver = true;
 	}
 
 	$scope.restartGame = () => {
