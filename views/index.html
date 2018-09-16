@@ -23,7 +23,7 @@
 				<button class="btn restart-game" ng-click="restartGame()">Restart Game?</button>
 			</div>
 			<div ng-show="!gameStarted">
-				<button class="btn" ng-click="beginGame()">Play Hangman</button>
+				<button class="btn start-game" ng-click="beginGame()">Play Hangman</button>
 			</div>
 			<div class="hangman-img-container">
 				<img src="{{hangmanImg}}">
@@ -50,7 +50,7 @@
                     </form>
 				</div>
 				<div class="wrong-guesses" ng-show="wrongGuessArray.length > 0">
-					<h4 >Wrong Guesses</h4>
+					<h4>Wrong Guesses</h4>
 					<span>You have {{guessesLeft}} wrong guesses left!</span>
 					<span class="wrong-letters">{{wrongGuessArray.join('')}}</span>
 				</div>
