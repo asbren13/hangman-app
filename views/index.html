@@ -17,15 +17,16 @@
 				<h3>Let's Play Hangman!</h3>
 				<h4>{{gameStatus}}</h4>
 			</div>
+			<div ng-show="gameOver">
+				<button class="btn restart-game" ng-click="restartGame()">Restart Game?</button>
+			</div>
 			<div class="hangman-img-container">
 				<img src="{{hangmanImg}}">
 			</div>
 			<div ng-show="!gameStarted">
 				<button class="btn" ng-click="beginGame()">Play Hangman</button>
 			</div>
-			<div ng-show="gameOver">
-				<button class="btn" ng-click="restartGame()">Restart Game?</button>
-			</div>
+			
 			<div ng-show="gameStarted" class="game-container">
 				<div class="guess-container">
 					<div class="word-length">
