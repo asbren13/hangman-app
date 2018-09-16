@@ -5,7 +5,6 @@ app.controller('AppController', function($scope, randomWordFactory, guessFactory
 	var attempts; 
 	$scope.gameStatus = "Ready to Get Started?";
 	$scope.gameStarted = false;
-	$scope.gameOver = false;
 	$scope.gamesPlayed = 0;
 	$scope.gamesWon = 0;
 	$scope.gamesLost = 0;
@@ -14,13 +13,10 @@ app.controller('AppController', function($scope, randomWordFactory, guessFactory
 		attempts = 0;
 		$scope.gameOver = false;
 		$scope.gameStarted = true;
-		$scope.words = [];
 		$scope.completedWord = [];
 		$scope.guessArray = [];
 		$scope.wrongGuessArray = [];
 		$scope.gameStatus = "Game Started! Good Luck!";
-		$scope.errorMsg = "";
-		attempts = 0;
 		startGame();
 	}
 
@@ -37,7 +33,7 @@ app.controller('AppController', function($scope, randomWordFactory, guessFactory
 		var wordLength = $scope.wordLength;
 		var slots = "";
 		for(var i = 0; i < wordLength; i++ ){
-			slots += '_____ ';
+			slots += '__ ';
 		}
 		return slots;
 	}
@@ -69,7 +65,7 @@ app.controller('AppController', function($scope, randomWordFactory, guessFactory
 		if(!isCorrect){
 			attempts++;
 			$scope.hangmanImg = `/images/hangman-${attempts}.png`;
-			$scope.wrongGuessArray.push(letter);
+			$scope.wrongGuessArray.push(letter + '  ');
 			$scope.guessesLeft = maxGuesses - attempts;
 			if(attempts === 10){
 				loseGame();
@@ -77,11 +73,12 @@ app.controller('AppController', function($scope, randomWordFactory, guessFactory
 		} else {
 			var wordslots = $scope.wordSlots.split(' ');
 			var letterCount = res.letterPositions.length;
+
 			for(var i = 0; i < letterCount; i++){
 				wordslots[res.letterPositions[i]] = letter;
 				$scope.completedWord.push(letter);
 			}
- 			console.log($scope.completedWord.length + ' out of ' + $scope.wordLength);
+
 			if($scope.completedWord.length === $scope.wordLength){
 				winGame();
 			}
