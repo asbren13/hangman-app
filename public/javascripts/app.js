@@ -23,7 +23,6 @@ app.controller('AppController', function($scope, randomWordFactory, guessFactory
 		$scope.hangmanImg = '/images/hangman-0.png';
 		var gameData = randomWordFactory.getRandomWord();
 		gameData.success(function(data){
-			console.log(data.randomWord);
 			$scope.wordLength = data.randomLength;
 			$scope.wordSlots = letterSlots();
 		})
@@ -62,7 +61,6 @@ app.controller('AppController', function($scope, randomWordFactory, guessFactory
 
 	function handleGuess(res, letter){
 		var isCorrect = res.correct;
-		console.log(res);
 		if(!isCorrect){
 			attempts++;
 			$scope.hangmanImg = `/images/hangman-${attempts}.png`;
@@ -91,7 +89,6 @@ app.factory("randomWordFactory", ["$http", function($http){
     
     var getRandomWord = function(){
         var wordData = $http.get('/api/word/random');
-        console.log('in random word factory');
         return wordData;
     };
     
@@ -106,7 +103,6 @@ app.factory("guessFactory", ["$http", function($http){
         var letterData = $http.post('/api/word/validate',{
         	letter: letter
         });
-        console.log('in guess factory');
         return letterData;
     };
     
