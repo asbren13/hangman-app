@@ -83,7 +83,7 @@ app.controller('AppController', function($scope, randomWordFactory, guessFactory
 			if($scope.completedWord.length === $scope.wordLength){
 				winGame();
 			}
-			
+
 			$scope.wordSlots = wordslots.join(' ');
 		}
 	}
@@ -106,29 +106,3 @@ app.controller('AppController', function($scope, randomWordFactory, guessFactory
 		init();
     }
 });
-
-app.factory("randomWordFactory", ["$http", function($http){
-    
-    var getRandomWord = function(){
-        var wordData = $http.get('/api/word/random');
-        return wordData;
-    };
-    
-    return {
-        getRandomWord: getRandomWord 
-    };
-}]);
-
-app.factory("guessFactory", ["$http", function($http){
-    
-    var isValidLetter = function(letter){
-        var letterData = $http.post('/api/word/validate',{
-        	letter: letter
-        });
-        return letterData;
-    };
-    
-    return {
-        isValidLetter: isValidLetter 
-    };
-}]);
