@@ -14,5 +14,27 @@ router.get('/word/random', function(req, res, next) {
   	});
 });
 
-
 module.exports = router;
+
+router.post('/word/validate', function(req, res, next){
+	const rightWord = req.app.word;
+	const letterGuessed = req.body.letter;
+	var correct = false;
+	var validLetters = [];
+	var letterPositions = [];
+
+	for(var i = 0; i < rightWord.length; i++){
+		if(letterGuessed === rightWord[i]){
+			correct = true;
+			validLetters.push(letterGuessed);
+			letterPositions.push(i);
+		}
+	}
+
+	res.send({
+		letterPositions: letterPositions,
+		validLetters: validLetters,
+		correct: correct
+	})
+})
+

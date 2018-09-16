@@ -1,6 +1,6 @@
 var app = angular.module('hangmanApp', []);
 
-app.controller('AppController', function($scope, randomWordFactory) {
+app.controller('AppController', function($scope, randomWordFactory, guessFactory) {
 	const maxGuesses = 10;
 	var attempts; 
 	$scope.gameStatus = "Ready to Get Started?";
@@ -23,6 +23,7 @@ app.controller('AppController', function($scope, randomWordFactory) {
 		$scope.hangmanImg = '/images/hangman-0.png';
 		var gameData = randomWordFactory.getRandomWord();
 		gameData.success(function(data){
+			console.log(data.randomWord);
 			$scope.wordLength = data.randomLength;
 			$scope.wordSlots = letterSlots();
 		})
@@ -41,7 +42,7 @@ app.controller('AppController', function($scope, randomWordFactory) {
 		$scope.duplicateLetter = false;
 		var guess = $scope.form.letter;
 		if($scope.guessArray.indexOf(guess) === -1){
-			$scope.guessArray.push(guess);
+			validateGuess(guess)
 			
 		} else if($scope.guessArray.indexOf(guess) === 1){
 			$scope.duplicateLetter = true;
@@ -50,26 +51,30 @@ app.controller('AppController', function($scope, randomWordFactory) {
 		$scope.form.letter = "";
 	}
 
-	function wrongGuess(){
-		$scope.updateImg();
+
+	function validateGuess(letter) {
+		var validLetter = guessFactory.isValidLetter(letter)
+
+		validLetter.success(function(data){
+			handleGuess(data, letter);
+		})
 	}
 
-
-	function lostGame(){
-		$scope.gameStatus = "Game Over :(";
-	}
-
-	function winGame(){
-		$scope.gameStatus = "Congrats! You won!";
-
-	}
-
-	$scope.updateImg = () => {
-		attempts++;
-		if(attempts > maxGuesses){
-			lostGame();
-		} else {
+	function handleGuess(res, letter){
+		var isCorrect = res.correct;
+		console.log(res);
+		if(!isCorrect){
+			attempts++;
 			$scope.hangmanImg = `/images/hangman-${attempts}.png`;
+			$scope.guessArray.push(letter);
+			$scope.guessesLeft = maxGuesses - attempts;
+		} else {
+			var wordLength = $scope.wordSlots.split(' ');
+			var letterCount = res.letterPositions.length;
+			for(var i = 0; i < letterCount; i++){
+				wordLength[res.letterPositions[i]] = letter
+			}
+			$scope.wordSlots = wordLength.join(' ');
 		}
 	}
 
@@ -95,3 +100,17 @@ app.factory("randomWordFactory", ["$http", function($http){
     };
 }]);
 
+app.factory("guessFactory", ["$http", function($http){
+    
+    var isValidLetter = function(letter){
+        var letterData = $http.post('/api/word/validate',{
+        	letter: letter
+        });
+        console.log('in guess factory');
+        return letterData;
+    };
+    
+    return {
+        isValidLetter: isValidLetter 
+    };
+}]);
