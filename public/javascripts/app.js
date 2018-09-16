@@ -77,11 +77,13 @@ app.controller('AppController', function($scope, randomWordFactory, guessFactory
 			var wordslots = $scope.wordSlots.split(' ');
 			var letterCount = res.letterPositions.length;
 			for(var i = 0; i < letterCount; i++){
-				wordslots[res.letterPositions[i]] = letter
+				wordslots[res.letterPositions[i]] = letter;
 			}
+ 
 			if($scope.completedWord.length === $scope.wordLength){
 				winGame();
 			}
+			
 			$scope.wordSlots = wordslots.join(' ');
 		}
 	}
