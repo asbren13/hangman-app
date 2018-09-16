@@ -18,7 +18,7 @@ app.controller('AppController', function($scope, randomWordFactory, guessFactory
 		$scope.completedWord = [];
 		$scope.guessArray = [];
 		$scope.wrongGuessArray = [];
-		$scope.gameStatus = "Game Started! Good Luck";
+		$scope.gameStatus = "Game Started! Good Luck!";
 		$scope.errorMsg = "";
 		attempts = 0;
 		startGame();
